@@ -107,6 +107,13 @@ if (isset($_GET['secret']) && $_GET['secret'] === 'check123') {
             echo "<p style='color:green;'><b>SUCCESS!</b> Result: $result</p>";
         } catch (\Exception $e) {
             echo "<p style='color:red;'><b>FAILED:</b> " . htmlspecialchars($e->getMessage()) . "</p>";
+            $ssl_errors = [];
+            while ($ssl_err = openssl_error_string()) {
+                $ssl_errors[] = $ssl_err;
+            }
+            if (!empty($ssl_errors)) {
+                echo "<p style='color:orange;'><b>SSL Errors:</b> " . htmlspecialchars(implode(' | ', $ssl_errors)) . "</p>";
+            }
         }
     }
 } else {
