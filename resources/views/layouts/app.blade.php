@@ -621,6 +621,9 @@
                 padding: 0 !important;
                 height: auto !important;
                 min-height: 100vh !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }
             .app-wrapper {
                 display: block !important;
@@ -628,6 +631,8 @@
                 margin: 0;
                 min-height: 100vh;
                 height: auto !important;
+                width: 100% !important;
+                max-width: 100vw !important;
                 background: none !important;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
@@ -667,12 +672,15 @@
             }
             .main-container {
                 display: block !important;
-                width: 100%;
+                width: 100% !important;
+                max-width: 100% !important;
                 height: auto !important;
                 overflow: visible !important;
             }
             .content-body {
                 display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
                 padding: 20px;
                 height: auto !important;
                 overflow: visible !important;
@@ -692,9 +700,20 @@
             .stats-grid > *,
             div[style*="grid-template-columns"] > * {
                 min-width: 0 !important;
+                max-width: 100% !important;
+            }
+            .card {
+                max-width: 100% !important;
+            }
+            .table-responsive {
+                max-width: 100% !important;
+                width: 100% !important;
+                overflow-x: auto !important;
             }
             header {
                 padding: 16px 20px !important;
+                width: 100% !important;
+                max-width: 100% !important;
             }
         }
 
