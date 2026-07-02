@@ -617,24 +617,33 @@
         /* Mobile Responsive for Wrapper & Sidebar Drawer */
         @media (max-width: 992px) {
             body {
-                padding: 0;
+                display: block !important;
+                padding: 0 !important;
+                height: auto !important;
+                min-height: 100vh !important;
             }
             .app-wrapper {
                 border-radius: 0;
                 margin: 0;
                 min-height: 100vh;
-                height: auto;
+                height: auto !important;
+                background: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                overflow: visible !important;
             }
             .sidebar {
                 position: fixed;
                 left: 0;
                 top: 0;
-                height: 100vh;
+                height: 100vh !important;
                 width: 280px;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
                 z-index: 1100;
-                background-color: #ffffff;
+                background-color: #ffffff !important;
                 border-right: 1px solid rgba(0, 0, 0, 0.1);
             }
             .sidebar.active {
@@ -657,11 +666,13 @@
             }
             .main-container {
                 width: 100%;
-                height: auto;
-                overflow: visible;
+                height: auto !important;
+                overflow: visible !important;
             }
             .content-body {
                 padding: 20px;
+                height: auto !important;
+                overflow: visible !important;
             }
             .menu-toggle {
                 display: block !important;
