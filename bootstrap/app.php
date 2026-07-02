@@ -51,6 +51,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
             }
             echo "<p><b>Found System CA:</b> " . htmlspecialchars($foundSystemCA) . "</p>";
+            echo "<p><b>Loaded PHP Extensions:</b> " . htmlspecialchars(implode(', ', get_loaded_extensions())) . "</p>";
             
             echo "<p><b>File:</b> " . htmlspecialchars($e->getFile()) . " on line " . $e->getLine() . "</p>";
             echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
