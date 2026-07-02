@@ -114,7 +114,7 @@
             position: relative;
         }
 
-        .input-group i:first-child {
+        .input-group > i:first-child {
             position: absolute;
             left: 16px;
             top: 50%;

@@ -113,7 +113,7 @@
             position: relative;
         }
 
-        .input-group i {
+        .input-group > i {
             position: absolute;
             left: 16px;
             top: 50%;
