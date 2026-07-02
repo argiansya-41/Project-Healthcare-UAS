@@ -28,6 +28,16 @@ return Application::configure(basePath: dirname(__DIR__))
             echo "<h1>ORIGINAL BOOT EXCEPTION DETECTED!</h1>";
             echo "<p><b>Class:</b> " . get_class($e) . "</p>";
             echo "<p><b>Message:</b> " . htmlspecialchars($e->getMessage()) . "</p>";
+            
+            $certPath = sys_get_temp_dir() . '/isrgrootx1.pem';
+            echo "<h2>SSL CA Debug Info</h2>";
+            echo "<p><b>Temp Dir:</b> " . htmlspecialchars(sys_get_temp_dir()) . "</p>";
+            echo "<p><b>Cert Path:</b> " . htmlspecialchars($certPath) . "</p>";
+            echo "<p><b>Cert File Exists:</b> " . (file_exists($certPath) ? 'YES' : 'NO') . "</p>";
+            if (file_exists($certPath)) {
+                echo "<p><b>Cert File Size:</b> " . filesize($certPath) . " bytes</p>";
+            }
+            
             echo "<p><b>File:</b> " . htmlspecialchars($e->getFile()) . " on line " . $e->getLine() . "</p>";
             echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
             exit;
