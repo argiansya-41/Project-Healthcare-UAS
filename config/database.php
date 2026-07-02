@@ -59,8 +59,12 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? (function() {
+                // PHP 8.5+ deprecates PDO::MYSQL_ATTR_SSL_* constants in favor of Pdo\Mysql::*
+                $sslVerifyConst = PHP_VERSION_ID >= 80500 ? 1013 : (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') ? PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT : 1013);
+                $sslCaConst = PHP_VERSION_ID >= 80500 ? 1008 : (defined('PDO::MYSQL_ATTR_SSL_CA') ? PDO::MYSQL_ATTR_SSL_CA : 1008);
+
                 $options = [
-                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+                    $sslVerifyConst => false,
                 ];
                 if (env('MYSQL_ATTR_SSL_CA')) {
                     $systemCAs = [
@@ -76,7 +80,7 @@ return [
                         }
                     }
                     if ($caPath) {
-                        $options[PDO::MYSQL_ATTR_SSL_CA] = $caPath;
+                        $options[$sslCaConst] = $caPath;
                     } else {
                         $certPath = sys_get_temp_dir() . '/isrgrootx1.pem';
                         if (!file_exists($certPath)) {
@@ -113,7 +117,7 @@ return [
                                 "-----END CERTIFICATE-----";
                             file_put_contents($certPath, $certContent);
                         }
-                        $options[PDO::MYSQL_ATTR_SSL_CA] = $certPath;
+                        $options[$sslCaConst] = $certPath;
                     }
                 }
                 return $options;
