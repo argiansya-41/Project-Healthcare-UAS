@@ -104,4 +104,46 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Anda telah berhasil keluar dari sistem.');
     }
+
+    // Show Forgot Password Form
+    public function showForgotPassword()
+    {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+        return view('auth.forgot-password');
+    }
+
+    // Process Password Reset (Email & NIK verification)
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+            'nik' => ['required', 'string', 'size:16'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'email.exists' => 'Email tidak terdaftar di sistem.',
+            'nik.size' => 'NIK harus tepat 16 digit.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+        $user = User::where('email', $request->email)
+                    ->where('nik', $request->nik)
+                    ->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'nik' => 'Kombinasi Email dan NIK tidak cocok dengan data kami.',
+            ])->withInput($request->only('email', 'nik'));
+        }
+
+        // Reset password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Log activity
+        ActivityLog::log('password_reset', 'User successfully reset password via NIK verification.', $user->id);
+
+        return redirect()->route('login')->with('success', 'Password Anda berhasil diset ulang. Silakan masuk menggunakan password baru.');
+    }
 }

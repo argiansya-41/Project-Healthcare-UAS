@@ -202,6 +202,13 @@
             <p>Silakan masuk ke akun Anda</p>
         </div>
 
+        @if(session('success'))
+            <div class="alert" style="background-color: rgba(16, 185, 129, 0.08); color: var(--primary); border: 1px solid rgba(16, 185, 129, 0.15);">
+                <i class="ri-checkbox-circle-fill" style="color: var(--primary);"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
         @if($errors->any())
             <div class="alert">
                 <i class="ri-error-warning-fill"></i>
@@ -220,14 +227,20 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="password">Password</label>
+                    <a href="{{ route('password.request') }}" style="font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='var(--primary-hover)'" onmouseout="this.style.color='var(--primary)'">Lupa Password?</a>
+                </div>
+                <div class="input-group" style="position: relative;">
                     <i class="ri-lock-2-line"></i>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" style="padding-right: 48px;" required>
+                    <button type="button" id="togglePassword" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                        <i class="ri-eye-off-line" id="eyeIcon"></i>
+                    </button>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit">Masuk</button>
+            <button type="submit" class="btn-submit" style="margin-top: 10px;">Masuk</button>
         </form>
 
         <div class="auth-footer">
@@ -235,5 +248,26 @@
         </div>
     </div>
 
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        if (togglePassword && passwordInput && eyeIcon) {
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle classes for the icon
+                if (type === 'password') {
+                    eyeIcon.classList.remove('ri-eye-line');
+                    eyeIcon.classList.add('ri-eye-off-line');
+                } else {
+                    eyeIcon.classList.remove('ri-eye-off-line');
+                    eyeIcon.classList.add('ri-eye-line');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

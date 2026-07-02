@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Warga - HealthCare</title>
+    <title>Lupa Password - HealthCare</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 24px;
+            padding: 24px;
         }
 
         .auth-card {
@@ -55,11 +55,11 @@
             border-radius: 30px;
             padding: 40px;
             width: 100%;
-            max-width: 600px;
+            max-width: 480px;
             box-shadow: 0 30px 70px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 24px;
         }
 
         .auth-header {
@@ -77,7 +77,7 @@
             font-size: 18px;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .logo i {
@@ -94,28 +94,33 @@
         .auth-header p {
             font-size: 14px;
             color: var(--text-muted);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            line-height: 1.5;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
+            gap: 6px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-main);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i:first-child {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
         }
 
         .form-control {
@@ -123,7 +128,7 @@
             background-color: #ffffff;
             border: 1px solid rgba(226, 232, 240, 0.8);
             border-radius: 14px;
-            padding: 12px 16px;
+            padding: 12px 16px 12px 48px;
             font-size: 14px;
             color: var(--text-main);
             outline: none;
@@ -135,23 +140,13 @@
             box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
         }
 
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg fill='%230f172a' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-
         .btn-submit {
-            grid-column: span 2;
             width: 100%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: #ffffff;
             border: none;
             padding: 14px;
-            border-radius: 50px; /* Pill button */
+            border-radius: 50px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
@@ -195,15 +190,6 @@
             align-items: center;
             gap: 8px;
         }
-
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width, .btn-submit {
-                grid-column: span 1;
-            }
-        }
     </style>
 </head>
 <body>
@@ -214,8 +200,8 @@
                 <i class="ri-heart-pulse-fill"></i>
                 <span>HealthCare</span>
             </div>
-            <h2>Pendaftaran Warga</h2>
-            <p>Lengkapi formulir untuk membuat akun layanan</p>
+            <h2>Lupa Password</h2>
+            <p>Masukkan Email & NIK terdaftar Anda untuk verifikasi identitas dan mengatur ulang password.</p>
         </div>
 
         @if($errors->any())
@@ -225,69 +211,52 @@
             </div>
         @endif
 
-        <form action="{{ route('register') }}" method="POST">
+        <form action="{{ route('password.update') }}" method="POST">
             @csrf
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="name">Nama Lengkap</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Nama Lengkap Anda" value="{{ old('name') }}" required>
+            
+            <div class="form-group">
+                <label for="email">Alamat Email</label>
+                <div class="input-group">
+                    <i class="ri-mail-line"></i>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="nama@email.com" value="{{ old('email') }}" required autofocus>
                 </div>
-
-                <div class="form-group">
-                    <label for="email">Alamat Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="nama@email.com" value="{{ old('email') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="nik">Nomor Induk Kependudukan (NIK)</label>
-                    <input type="text" id="nik" name="nik" class="form-control" placeholder="16 Digit NIK" maxlength="16" value="{{ old('nik') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone_number">No. Handphone / WhatsApp</label>
-                    <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="08xxxxxxxxxx" value="{{ old('phone_number') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="gender">Jenis Kelamin</label>
-                    <select id="gender" name="gender" class="form-control" required>
-                        <option value="" disabled selected>Pilih jenis kelamin</option>
-                        <option value="L" {{ old('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="P" {{ old('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Alamat Domisili</label>
-                    <input type="text" id="address" name="address" class="form-control" placeholder="Nama Jalan, Kelurahan, Kecamatan" value="{{ old('address') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div style="position: relative; width: 100%;">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Min. 8 karakter" style="padding-right: 48px;" required>
-                        <button type="button" class="togglePassword" data-target="password" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; padding: 0;">
-                            <i class="ri-eye-off-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password_confirmation">Konfirmasi Password</label>
-                    <div style="position: relative; width: 100%;">
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Ulangi password" style="padding-right: 48px;" required>
-                        <button type="button" class="togglePassword" data-target="password_confirmation" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; padding: 0;">
-                            <i class="ri-eye-off-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit">Daftar Akun</button>
             </div>
+
+            <div class="form-group">
+                <label for="nik">NIK (16 Digit Nomor Induk Kependudukan)</label>
+                <div class="input-group">
+                    <i class="ri-key-line"></i>
+                    <input type="text" id="nik" name="nik" class="form-control" placeholder="320101XXXXXXXXXX" maxlength="16" value="{{ old('nik') }}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password Baru</label>
+                <div class="input-group" style="position: relative;">
+                    <i class="ri-lock-2-line"></i>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" style="padding-right: 48px;" required>
+                    <button type="button" class="togglePassword" data-target="password" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                        <i class="ri-eye-off-line"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">Konfirmasi Password Baru</label>
+                <div class="input-group" style="position: relative;">
+                    <i class="ri-lock-check-line"></i>
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="••••••••" style="padding-right: 48px;" required>
+                    <button type="button" class="togglePassword" data-target="password_confirmation" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                        <i class="ri-eye-off-line"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Set Ulang Password</button>
         </form>
 
         <div class="auth-footer">
-            Sudah memiliki akun? <a href="{{ route('login') }}">Masuk di sini</a>
+            Kembali ke halaman <a href="{{ route('login') }}">Masuk</a>
         </div>
     </div>
 
