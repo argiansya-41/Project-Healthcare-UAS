@@ -21,8 +21,16 @@ try {
     $app->handleRequest(Request::capture());
 } catch (\Throwable $e) {
     header('HTTP/1.1 500 Internal Server Error');
-    echo "<h1>Primary Boot Error</h1>";
-    echo "<p><b>Message:</b> " . htmlspecialchars($e->getMessage()) . "</p>";
-    echo "<p><b>File:</b> " . htmlspecialchars($e->getFile()) . " on line " . $e->getLine() . "</p>";
-    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+    echo "<h1>Primary Boot Error Chain</h1>";
+    
+    $current = $e;
+    $index = 1;
+    while ($current) {
+        echo "<hr><h3>Exception #{$index}: " . htmlspecialchars(get_class($current)) . "</h3>";
+        echo "<p><b>Message:</b> " . htmlspecialchars($current->getMessage()) . "</p>";
+        echo "<p><b>File:</b> " . htmlspecialchars($current->getFile()) . " on line " . $current->getLine() . "</p>";
+        echo "<pre>" . htmlspecialchars($current->getTraceAsString()) . "</pre>";
+        $current = $current->getPrevious();
+        $index++;
+    }
 }
