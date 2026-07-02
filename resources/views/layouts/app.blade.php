@@ -680,6 +680,9 @@
             .menu-toggle {
                 display: block !important;
             }
+            .header-actions span {
+                display: none !important; /* Hide date on tablet/mobile to prevent horizontal overflow */
+            }
             /* Override any inline grid template columns to stack vertically on mobile */
             div[style*="grid-template-columns"] {
                 grid-template-columns: 1fr !important;
@@ -687,6 +690,29 @@
             }
             header {
                 padding: 16px 20px !important;
+            }
+        }
+
+        /* Extra mobile responsive for devices under 576px (Galaxy Z Fold, iPhone SE, etc.) */
+        @media (max-width: 576px) {
+            .card {
+                padding: 16px !important;
+                border-radius: 16px !important;
+            }
+            .content-body {
+                padding: 12px !important;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+            header h2 {
+                font-size: 15px !important;
+            }
+            .alert {
+                padding: 12px 16px !important;
+                border-radius: 14px !important;
+                font-size: 13px !important;
             }
         }
 
