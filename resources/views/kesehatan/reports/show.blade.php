@@ -93,9 +93,17 @@
                         <strong>Rekomendasi:</strong> {{ $report->treatment_recommendation }}
                     </p>
                 @else
-                    <p style="font-size: 14px; color: var(--text-secondary); font-style: italic;">
-                        Belum ada rekomendasi penanganan medis dari Dokter untuk kasus terverifikasi ini.
-                    </p>
+                    @if(auth()->user()->isPetugasMedis() || auth()->user()->isAdmin())
+                        <form action="{{ route('dokter.consultations.recommend', $report->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+                            @csrf
+                            <textarea name="treatment_recommendation" class="form-control" style="padding: 12px 16px; font-size: 14px;" placeholder="Tulis resep obat, instruksi penanganan, atau rekomendasi medis dari dokter..." rows="3" required></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm" style="align-self: flex-end;"><i class="ri-check-double-line"></i> Simpan Rekomendasi</button>
+                        </form>
+                    @else
+                        <p style="font-size: 14px; color: var(--text-secondary); font-style: italic;">
+                            Belum ada rekomendasi penanganan medis dari Dokter untuk kasus terverifikasi ini.
+                        </p>
+                    @endif
                 @endif
             </div>
         </div>
