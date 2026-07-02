@@ -688,6 +688,11 @@
                 grid-template-columns: 1fr !important;
                 gap: 20px !important;
             }
+            /* Prevent grid items from expanding beyond their boundaries (enables table scrollbar) */
+            .stats-grid > *,
+            div[style*="grid-template-columns"] > * {
+                min-width: 0 !important;
+            }
             header {
                 padding: 16px 20px !important;
             }
@@ -706,8 +711,12 @@
                 grid-template-columns: 1fr !important;
                 gap: 12px !important;
             }
-            header h2 {
-                font-size: 15px !important;
+            .header-title h2 {
+                max-width: 140px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+                font-size: 14px !important;
             }
             .alert {
                 padding: 12px 16px !important;
