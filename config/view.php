@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'compiled' => env('VERCEL') ? '/tmp' : env(
+    'compiled' => str_contains(base_path(), '/var/task') ? '/tmp' : env(
         'VIEW_COMPILED_PATH',
         realpath(storage_path('framework/views'))
     ),
