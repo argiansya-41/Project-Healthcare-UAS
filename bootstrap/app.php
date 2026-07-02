@@ -38,6 +38,20 @@ return Application::configure(basePath: dirname(__DIR__))
                 echo "<p><b>Cert File Size:</b> " . filesize($certPath) . " bytes</p>";
             }
             
+            $systemCAs = [
+                '/etc/pki/tls/certs/ca-bundle.crt',
+                '/etc/ssl/certs/ca-certificates.crt',
+                '/etc/ssl/cert.pem',
+            ];
+            $foundSystemCA = 'NONE';
+            foreach ($systemCAs as $path) {
+                if (file_exists($path)) {
+                    $foundSystemCA = $path;
+                    break;
+                }
+            }
+            echo "<p><b>Found System CA:</b> " . htmlspecialchars($foundSystemCA) . "</p>";
+            
             echo "<p><b>File:</b> " . htmlspecialchars($e->getFile()) . " on line " . $e->getLine() . "</p>";
             echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
             exit;
