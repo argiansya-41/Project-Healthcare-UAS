@@ -59,8 +59,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? [
-                1014 => false, // PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-                1007 => '',    // Enable SSL but don't load a specific CA file
+                1014 => true, // PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true
             ] : [],
         ],
 
