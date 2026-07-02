@@ -55,7 +55,7 @@ class TreatmentController extends Controller
 
         ActivityLog::log('add_treatment_recommendation', "Added medical treatment recommendation for patient {$report->patient_name} (Report #{$report->id})", auth()->id());
 
-        return redirect()->route('dokter.consultations.index')->with('success', 'Rekomendasi penanganan medis berhasil disimpan.');
+        return redirect()->route('kesehatan.reports.index')->with('success', 'Rekomendasi penanganan medis berhasil disimpan.');
     }
 
     public function respondToComplaint(Request $request, $id)
