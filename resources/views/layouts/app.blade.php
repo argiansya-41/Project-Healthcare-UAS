@@ -623,6 +623,7 @@
                 min-height: 100vh !important;
             }
             .app-wrapper {
+                display: block !important;
                 border-radius: 0;
                 margin: 0;
                 min-height: 100vh;
@@ -665,11 +666,13 @@
                 display: block;
             }
             .main-container {
+                display: block !important;
                 width: 100%;
                 height: auto !important;
                 overflow: visible !important;
             }
             .content-body {
+                display: block !important;
                 padding: 20px;
                 height: auto !important;
                 overflow: visible !important;
