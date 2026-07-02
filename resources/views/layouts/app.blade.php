@@ -641,6 +641,20 @@
                 transform: translateX(0);
                 box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
             }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(4px);
+                z-index: 1050;
+            }
+            .sidebar.active + .sidebar-overlay {
+                display: block;
+            }
             .main-container {
                 width: 100%;
                 height: auto;
@@ -651,6 +665,14 @@
             }
             .menu-toggle {
                 display: block !important;
+            }
+            /* Override any inline grid template columns to stack vertically on mobile */
+            div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            header {
+                padding: 16px 20px !important;
             }
         }
 
@@ -806,6 +828,7 @@
             </div>
         </div>
     </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <!-- Main Content Panel -->
     <div class="main-container">
@@ -854,10 +877,17 @@
     <script>
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
 
         if (menuToggle) {
             menuToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('active');
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
             });
         }
 

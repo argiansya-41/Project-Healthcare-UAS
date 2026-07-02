@@ -216,10 +216,27 @@
         }
 
         @media (max-width: 768px) {
-            header { padding: 24px; }
-            main { padding: 0 24px 48px; }
-            .hero-section h2 { font-size: 36px; }
-            .hero-section p { font-size: 16px; }
+            header {
+                padding: 24px 16px;
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                gap: 12px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+                flex: 1;
+                max-width: 180px;
+                text-align: center;
+            }
+            main { padding: 0 16px 48px; }
+            .hero-section h2 { font-size: 32px; }
+            .hero-section p { font-size: 15px; }
         }
     </style>
 </head>
