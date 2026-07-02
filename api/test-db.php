@@ -13,6 +13,12 @@ if (isset($_GET['secret']) && $_GET['secret'] === 'check123') {
     echo "<p>Database: " . htmlspecialchars($database) . "</p>";
     echo "<p>Username: " . htmlspecialchars($username) . "</p>";
     
+    echo "<h2>PDO MySQL Constants</h2>";
+    echo "<p><b>PDO::MYSQL_ATTR_SSL_CA:</b> " . (defined('PDO::MYSQL_ATTR_SSL_CA') ? PDO::MYSQL_ATTR_SSL_CA : 'NOT DEFINED') . "</p>";
+    echo "<p><b>PDO::MYSQL_ATTR_SSL_KEY:</b> " . (defined('PDO::MYSQL_ATTR_SSL_KEY') ? PDO::MYSQL_ATTR_SSL_KEY : 'NOT DEFINED') . "</p>";
+    echo "<p><b>PDO::MYSQL_ATTR_SSL_CERT:</b> " . (defined('PDO::MYSQL_ATTR_SSL_CERT') ? PDO::MYSQL_ATTR_SSL_CERT : 'NOT DEFINED') . "</p>";
+    echo "<p><b>PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT:</b> " . (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') ? PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT : 'NOT DEFINED') . "</p>";
+    
     $variations = [
         'No options' => [],
         'Verify Server Cert = true' => [
@@ -56,6 +62,14 @@ if (isset($_GET['secret']) && $_GET['secret'] === 'check123') {
         'Verify Server Cert = false, CA = dev/null' => [
             1014 => false,
             1007 => '/dev/null'
+        ],
+        'Using Constant CA = temp ISRG, verify = false' => [
+            PDO::MYSQL_ATTR_SSL_CA => sys_get_temp_dir() . '/isrgrootx1.pem',
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+        ],
+        'Using Constant CA = system bundle, verify = false' => [
+            PDO::MYSQL_ATTR_SSL_CA => '/etc/pki/tls/certs/ca-bundle.crt',
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
         ],
     ];
     
