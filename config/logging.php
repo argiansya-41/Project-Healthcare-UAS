@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => str_contains(base_path(), '/var/task') ? 'stderr' : env('LOG_CHANNEL', 'stack'),
+    'default' => str_contains(__DIR__, '/var/task') ? 'stderr' : env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------

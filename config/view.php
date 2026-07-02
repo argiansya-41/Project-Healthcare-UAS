@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'compiled' => str_contains(base_path(), '/var/task') ? '/tmp' : env(
+    'compiled' => str_contains(__DIR__, '/var/task') ? '/tmp' : env(
         'VIEW_COMPILED_PATH',
         realpath(storage_path('framework/views'))
     ),

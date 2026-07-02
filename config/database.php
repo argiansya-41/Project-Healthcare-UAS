@@ -60,7 +60,7 @@ return [
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 1007 => env('MYSQL_ATTR_SSL_CA') 
-                    ? (file_exists(env('MYSQL_ATTR_SSL_CA')) ? env('MYSQL_ATTR_SSL_CA') : base_path(env('MYSQL_ATTR_SSL_CA')))
+                    ? realpath(__DIR__ . '/../' . env('MYSQL_ATTR_SSL_CA')) 
                     : null,
             ]) : [],
         ],
