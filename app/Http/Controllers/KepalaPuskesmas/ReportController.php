@@ -19,6 +19,10 @@ class ReportController extends Controller
 
     public function export($module, $format)
     {
+        if (auth()->user()->role === 'apoteker' && $module !== 'obat') {
+            abort(403, 'Anda tidak memiliki wewenang untuk mengakses modul laporan ini.');
+        }
+
         if (!in_array($module, ['obat', 'penyakit', 'imunisasi'])) {
             abort(404, 'Modul laporan tidak ditemukan.');
         }

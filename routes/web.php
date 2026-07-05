@@ -103,8 +103,11 @@ Route::middleware('auth')->group(function () {
     // Kepala Puskesmas Group
     Route::middleware('role:admin')->prefix('kepala')->name('kepala.')->group(function () {
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-        Route::get('reports/export/{module}/{format}', [ReportController::class, 'export'])->name('reports.export');
     });
+
+    Route::get('kepala/reports/export/{module}/{format}', [ReportController::class, 'export'])
+        ->middleware('role:admin,apoteker')
+        ->name('kepala.reports.export');
 
     Route::middleware('role:warga')->prefix('warga')->name('warga.')->group(function () {
         Route::get('my-children', [ChildController::class, 'myChildren'])->name('children.index');
