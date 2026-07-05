@@ -21,6 +21,71 @@ class AIChatController extends Controller
         $message = trim($request->message);
         $lowercaseMessage = strtolower($message);
 
+        // --- 1. INTEGRASI GEMINI API (JIKA KUNCI TERSEDIA) ---
+        $apiKey = env('GEMINI_API_KEY');
+        if ($apiKey) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                [
+                                    'text' => "Anda adalah Asisten AI Kesehatan pintar untuk Puskesmas. Jawab pertanyaan pengguna berikut: \"{$message}\".
+                                    
+Ketentuan Jawaban:
+1. Periksa apakah pertanyaan berhubungan dengan kesehatan, medis, penyakit, imunisasi, obat, gizi, gaya hidup sehat, pertolongan pertama, atau dampak buruk zat/kebiasaan seperti rokok/alkohol/narkoba.
+2. Jika TIDAK berhubungan dengan kesehatan, berikan tanggapan penolakan yang sopan dengan ikon peringatan kuning (<div class=\"ai-warning-alert\"><i class=\"ri-alert-line\"></i> Maaf, sebagai Asisten AI Kesehatan...</div>).
+3. Anda WAJIB memberikan jawaban dalam format JSON mentah (jangan dibungkus markdown ```json) dengan struktur berikut:
+{
+  \"thinking\": [
+    \"Langkah analisis 1 dalam bahasa Indonesia\",
+    \"Langkah analisis 2 dalam bahasa Indonesia\",
+    ...
+  ],
+  \"reply\": \"Isi jawaban lengkap dalam format HTML bersih (gunakan tag <h3>, <p>, <ul>, <li>, <strong>, dan kelas ikon Remix Icon seperti <i class='ri-capsule-line'></i> atau <i class='ri-alert-line'></i>)\"
+}
+4. Jawablah dalam Bahasa Indonesia yang ramah, profesional, dan mudah dipahami warga puskesmas."
+                                ]
+                            ]
+                        ]
+                    ],
+                    'generationConfig' => [
+                        'responseMimeType' => 'application/json',
+                        'temperature' => 0.2
+                    ]
+                ]);
+
+                if ($response->successful()) {
+                    $json = $response->json();
+                    if (isset($json['candidates'][0]['content']['parts'][0]['text'])) {
+                        $textResult = trim($json['candidates'][0]['content']['parts'][0]['text']);
+                        
+                        // Bersihkan pembungkus markdown ```json jika ada
+                        if (str_starts_with($textResult, '```')) {
+                            $textResult = preg_replace('/^```(?:json)?/i', '', $textResult);
+                            $textResult = preg_replace('/```$/i', '', $textResult);
+                            $textResult = trim($textResult);
+                        }
+                        
+                        $decoded = json_decode($textResult, true);
+                        if ($decoded && isset($decoded['thinking']) && isset($decoded['reply'])) {
+                            return response()->json([
+                                'thinking' => $decoded['thinking'],
+                                'reply' => $decoded['reply']
+                            ]);
+                        }
+                    }
+                }
+                
+                \Illuminate\Support\Facades\Log::warning("Gemini API parsing failed or returned empty: " . $response->body());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Gemini API request error: " . $e->getMessage());
+            }
+        }
+
+        // --- 2. FALLBACK KE MESIN MATRIKS KATA KUNCI LOKAL ---
         // General health keywords list for validation
         $healthKeywords = [
             'sehat', 'sakit', 'penyakit', 'gejala', 'cegah', 'pencegahan', 'obat', 'medis', 
@@ -36,7 +101,9 @@ class AIChatController extends Controller
             'vertigo', 'mencret', 'sesak', 'dada', 'nyeri dada', 'bengkak', 'alergen', 'ruam',
             'tumor', 'benjolan', 'karsinoma', 'darah tinggi', 'gula darah', 'kencing manis',
             'panas', 'pilek', 'bersin', 'luka bakar', 'nutrisi', 'diet sehat', 'patah hati',
-            'kelelahan', 'saraf', 'sirosis', 'kuning', 'ulu hati'
+            'kelelahan', 'saraf', 'sirosis', 'kuning', 'ulu hati', 'alkohol', 'rokok', 'nikotin',
+            'miras', 'efek samping', 'efek', 'samping', 'bahaya', 'candu', 'kecanduan', 'narkoba',
+            'ketergantungan', 'zat adiktif'
         ];
 
         // Check if message is related to health
@@ -64,6 +131,23 @@ class AIChatController extends Controller
 
         // Detailed health topics database
         $topics = [
+            'alkohol_rokok' => [
+                'keywords' => ['alkohol', 'rokok', 'nikotin', 'miras', 'minuman keras', 'ketergantungan', 'zat adiktif', 'kecanduan', 'bahaya rokok', 'bahaya alkohol'],
+                'title' => 'Efek Samping & Bahaya Alkohol / Rokok',
+                'icon' => 'ri-alert-line',
+                'desc' => 'Konsumsi alkohol (minuman keras) dan rokok memiliki efek samping buruk bagi kesehatan organ tubuh, terutama paru-paru, hati (liver), jantung, dan sistem saraf.',
+                'symptoms' => [
+                    'Jangka Pendek: Penurunan kesadaran, gangguan koordinasi motorik, mual, sakit kepala, dehidrasi, peningkatan tekanan darah secara drastis.',
+                    'Jangka Panjang (Alkohol): Kerusakan hati kronis (sirosis), gerd/maag akut, stroke, gangguan memori/kognitif, ketergantungan fisik.',
+                    'Jangka Panjang (Rokok): Kanker paru-paru, PPOK (Penyakit Paru Obstruktif Kronis), serangan jantung, gangguan kehamilan.'
+                ],
+                'prevention' => [
+                    'Mengurangi konsumsi secara bertahap dan menetapkan komitmen kuat untuk berhenti.',
+                    'Menghindari lingkungan sosial yang memicu keinginan untuk mengonsumsi zat tersebut.',
+                    'Berkonsultasi dengan dokter puskesmas untuk terapi konseling berhenti merokok/alkohol.'
+                ],
+                'treatment' => 'Lakukan gaya hidup sehat, minum banyak air putih untuk detoksifikasi alami tubuh, penuhi asupan nutrisi kaya antioksidan. Jika mengalami gejala putus zat berat (withdrawal) atau keracunan alkohol akut, segera kunjungi layanan medis darurat Puskesmas.'
+            ],
             'dbd' => [
                 'keywords' => ['dbd', 'demam berdarah', 'dengue', 'aegypti', 'trombosit'],
                 'title' => 'Demam Berdarah Dengue (DBD)',
