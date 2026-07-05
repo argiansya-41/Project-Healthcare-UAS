@@ -12,16 +12,9 @@
                 </div>
                 <div>
                     <h3 style="font-size: 16px; font-weight: 700; margin: 0; color: var(--text-primary);">Asisten AI Kesehatan</h3>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
-                        <span style="font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 5px; font-weight: 500;">
-                            <span style="display: inline-block; width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); transform: translate3d(0,0,0);"></span> Online
-                        </span>
-                        @if($hasApiKey)
-                            <span class="badge badge-success" style="font-size: 10px; padding: 2px 8px; border-radius: 8px; margin-bottom: 0;">Mode: Cerdas (Gemini AI)</span>
-                        @else
-                            <span class="badge badge-warning" style="font-size: 10px; padding: 2px 8px; border-radius: 8px; color: #b45309; background-color: #fffbeb; border: 1px solid #fde68a; margin-bottom: 0;">Mode: Terbatas (Offline/Lokal)</span>
-                        @endif
-                    </div>
+                    <span style="font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 5px; font-weight: 500; margin-top: 2px;">
+                        <span style="display: inline-block; width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); transform: translate3d(0,0,0);"></span> Online & Siap Membantu
+                    </span>
                 </div>
             </div>
             <div>
@@ -41,12 +34,7 @@
                 <div style="background-color: #ffffff; border: 1px solid var(--card-border); border-radius: 0 16px 16px 16px; padding: 14px 18px; color: var(--text-primary); font-size: 14px; line-height: 1.6; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
                     Halo <strong>{{ auth()->user()->name }}</strong>! Saya adalah Asisten AI Kesehatan Anda.<br><br>
                     
-                    @if(!$hasApiKey)
-                        <div style="margin-bottom: 12px; padding: 10px 12px; background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; color: #b45309; font-size: 12.5px; line-height: 1.4;">
-                            <i class="ri-information-line"></i> <strong>Informasi Sistem (Mode Terbatas):</strong><br>
-                            Saat ini AI berjalan dalam <strong>Mode Offline/Lokal</strong>. Pertanyaan hanya dapat dijawab secara rinci jika mencakup topik DBD, TBC, Diare, Polio, Campak, dan dampak Alkohol/Rokok. Pertanyaan kesehatan lainnya akan dibantu dengan edukasi kesehatan umum.
-                        </div>
-                    @endif
+
 
                     Tanyakan kepada saya seputar informasi medis dan kesehatan seperti:
                     <ul style="margin: 8px 0 0 18px; padding: 0;">

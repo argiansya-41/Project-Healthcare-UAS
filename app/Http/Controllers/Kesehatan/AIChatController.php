@@ -658,10 +658,7 @@ Ketentuan Jawaban:
                      '<li><strong>Istirahat & Imunitas:</strong> Pastikan waktu tidur cukup (7-8 jam untuk dewasa) guna mendukung sistem kekebalan tubuh melawan infeksi secara optimal.</li>' .
                      '<li><strong>Pencegahan Mandiri:</strong> Selalu gunakan masker bila sedang batuk/pilek untuk mencegah penularan ke keluarga terdekat.</li>' .
                      '</ul>' .
-                     '<p><em>Catatan Penting: Informasi di atas adalah bagian dari edukasi kesehatan dasar. Jika keluhan Anda berlanjut lebih dari 3 hari, terasa memburuk, atau timbul kondisi darurat, mohon segera kunjungi dokter di Puskesmas atau rumah sakit terdekat untuk mendapatkan pemeriksaan langsung.</em></p>' .
-                     '<div style="margin-top: 15px; padding: 12px; border-top: 1px dashed rgba(239, 68, 68, 0.3); font-size: 12px; color: var(--danger); background-color: rgba(239, 68, 68, 0.03); border-radius: 8px;">' .
-                     '<i class="ri-information-line" style="vertical-align: middle; margin-right: 4px;"></i> <strong>Batasan Mode Terbatas (Lokal/Offline):</strong> Karena sistem saat ini beroperasi dalam Mode Terbatas (Offline), AI tidak dapat memproses jawaban spesifik untuk pertanyaan di luar daftar penyakit utama bawaan (DBD, TBC, Diare, Polio, Campak, Alkohol/Rokok). Hubungi administrator untuk mengaktifkan <strong>Mode Cerdas (Gemini API)</strong> agar AI dapat menjawab semua pertanyaan kesehatan secara dinamis.' .
-                     '</div>';
+                     '<p><em>Catatan Penting: Informasi di atas adalah bagian dari edukasi kesehatan dasar. Jika keluhan Anda berlanjut lebih dari 3 hari, terasa memburuk, atau timbul kondisi darurat, mohon segera kunjungi dokter di Puskesmas atau rumah sakit terdekat untuk mendapatkan pemeriksaan langsung.</em></p>';
         } elseif (count($matchedTopics) >= 2 && in_array('demam', $topTopicKeys) && in_array('batuk_pilek', $topTopicKeys)) {
             // Sintesis Gejala Demam + Batuk & Pilek
             $thinkingSteps[] = "Mendeteksi beberapa gejala: Demam dan Batuk/Pilek.";
