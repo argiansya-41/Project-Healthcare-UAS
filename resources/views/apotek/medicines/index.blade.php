@@ -14,7 +14,7 @@
         </div>
 
         <!-- Filter bar -->
-        <form action="{{ route('apotek.medicines.index') }}" method="GET" style="display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+        <form action="{{ route('apotek.medicines.index') }}" method="GET" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px;">
             <div class="form-group" style="margin-bottom: 0;">
                 <input type="text" name="search" class="form-control" placeholder="Cari nama atau kode obat..." value="{{ request('search') }}">
             </div>

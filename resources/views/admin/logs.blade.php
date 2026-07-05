@@ -18,7 +18,7 @@
         </div>
 
         <!-- Search Form -->
-        <form action="{{ route('admin.logs') }}" method="GET" autocomplete="off" style="display: grid; grid-template-columns: 3fr 1.5fr 1fr; gap: 16px; margin-bottom: 24px;">
+        <form action="{{ route('admin.logs') }}" method="GET" autocomplete="off" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px;">
             <div class="form-group" style="margin-bottom: 0;">
                 <input type="text" name="search" class="form-control" placeholder="Cari deskripsi log, IP Address, atau nama user..." value="{{ request()->query('search') }}" autocomplete="off">
             </div>
