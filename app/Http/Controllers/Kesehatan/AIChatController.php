@@ -81,9 +81,37 @@ Ketentuan Jawaban:
                 }
                 
                 // Return API error to the chat interface for easy debugging
+                $listResponse = \Illuminate\Support\Facades\Http::withoutVerifying()
+                    ->get("https://generativelanguage.googleapis.com/v1/models?key={$apiKey}");
+                
+                $availableModels = "";
+                if ($listResponse->successful()) {
+                    $modelsJson = $listResponse->json();
+                    if (isset($modelsJson['models'])) {
+                        $modelNames = [];
+                        foreach ($modelsJson['models'] as $m) {
+                            $modelNames[] = str_replace("models/", "", $m['name']);
+                        }
+                        $availableModels = "<br><br><strong>Model yang tersedia (v1):</strong> " . implode(", ", $modelNames);
+                    }
+                } else {
+                    $listResponseBeta = \Illuminate\Support\Facades\Http::withoutVerifying()
+                        ->get("https://generativelanguage.googleapis.com/v1beta/models?key={$apiKey}");
+                    if ($listResponseBeta->successful()) {
+                        $modelsJson = $listResponseBeta->json();
+                        if (isset($modelsJson['models'])) {
+                            $modelNames = [];
+                            foreach ($modelsJson['models'] as $m) {
+                                $modelNames[] = str_replace("models/", "", $m['name']);
+                            }
+                            $availableModels = "<br><br><strong>Model yang tersedia (v1beta):</strong> " . implode(", ", $modelNames);
+                        }
+                    }
+                }
+
                 return response()->json([
                     'thinking' => ["Mendeteksi kegagalan respon dari API Gemini"],
-                    'reply' => '<div class="ai-warning-alert"><i class="ri-alert-line"></i> API Gemini mengembalikan error (' . $response->status() . '): ' . e($response->body()) . '</div>'
+                    'reply' => '<div class="ai-warning-alert"><i class="ri-alert-line"></i> API Gemini mengembalikan error (' . $response->status() . '): ' . e($response->body()) . $availableModels . '</div>'
                 ]);
             } catch (\Exception $e) {
                 return response()->json([
