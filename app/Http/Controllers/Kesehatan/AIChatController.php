@@ -22,7 +22,7 @@ class AIChatController extends Controller
         $lowercaseMessage = strtolower($message);
 
         // --- 1. INTEGRASI GEMINI API (JIKA KUNCI TERSEDIA) ---
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = config('services.gemini.key');
         if ($apiKey) {
             try {
                 $response = \Illuminate\Support\Facades\Http::withHeaders([
