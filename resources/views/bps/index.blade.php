@@ -45,9 +45,27 @@
 
     .bps-grid-3 {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 24px;
         margin-bottom: 28px;
+    }
+
+    .bps-chart-card {
+        grid-column: span 2;
+    }
+
+    .bps-sidebar-card {
+        grid-column: span 1;
+    }
+
+    @media (max-width: 991px) {
+        .bps-grid-3 {
+            grid-template-columns: 1fr;
+        }
+        .bps-chart-card,
+        .bps-sidebar-card {
+            grid-column: span 1 !important;
+        }
     }
 
     .bps-card-interactive {
@@ -240,7 +258,7 @@
 
 <div class="bps-grid-3">
     <!-- Interactive Chart -->
-    <div class="card bps-card-interactive" style="grid-column: span 2;">
+    <div class="card bps-card-interactive bps-chart-card">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
             <div>
                 <h3 style="font-size: 17px; font-weight: 700;">Grafik Perbandingan Provinsi</h3>
@@ -262,7 +280,7 @@
     </div>
 
     <!-- Table Sidebar / Search and quick stats -->
-    <div class="card" style="display: flex; flex-direction: column; gap: 16px;">
+    <div class="card bps-sidebar-card" style="display: flex; flex-direction: column; gap: 16px;">
         <h3 style="font-size: 17px; font-weight: 700;">Wilayah & Indikator</h3>
         <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Cari provinsi secara instan untuk melihat performa indikator kesehatannya.</p>
 

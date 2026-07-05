@@ -2,6 +2,26 @@
 
 @section('header-title', 'Input Transaksi Obat')
 
+@section('styles')
+<style>
+    .transaction-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .transaction-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .transaction-grid > .form-group,
+        .transaction-grid > button {
+            grid-column: span 1 !important;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="card" style="max-width: 800px; margin: 0 auto;">
         <div style="margin-bottom: 24px;">
@@ -17,7 +37,7 @@
 
         <form action="{{ route('apotek.transactions.store') }}" method="POST">
             @csrf
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <div class="transaction-grid">
                 <div class="form-group">
                     <label for="medicine_id">Pilih Obat</label>
                     <select id="medicine_id" name="medicine_id" class="form-control" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\'%2364748b\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/><path d=\'M0 0h24v24H0z\' fill=\'none\'/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;" required>
@@ -80,7 +100,7 @@
         if (type === 'out') {
             supplierGroup.style.display = 'none';
         } else {
-            supplierGroup.style.display = 'flex';
+            supplierGroup.style.display = 'block';
         }
     }
     document.addEventListener("DOMContentLoaded", toggleSupplier);
