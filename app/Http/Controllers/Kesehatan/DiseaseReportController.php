@@ -465,9 +465,9 @@ class DiseaseReportController extends Controller
                         'latitude' => !empty($lat) ? floatval($lat) : null,
                         'longitude' => !empty($lng) ? floatval($lng) : null,
                         'reporter_id' => auth()->id(),
-                        'status' => 'verified',
-                        'verified_by' => auth()->id(),
-                        'verification_notes' => 'Diimpor dari file CSV.',
+                        'status' => 'pending',
+                        'verified_by' => null,
+                        'verification_notes' => null,
                     ];
 
                     DiseaseReport::create($data);
