@@ -88,6 +88,7 @@ Ketentuan Jawaban:
         // --- 2. FALLBACK KE MESIN MATRIKS KATA KUNCI LOKAL ---
         // General health keywords list for validation
         $healthKeywords = [
+            // Kata Tanya & Aksi Medis Umum
             'sehat', 'sakit', 'penyakit', 'gejala', 'cegah', 'pencegahan', 'obat', 'medis', 
             'dokter', 'imunisasi', 'vaksin', 'kesehatan', 'kipi', 'demam', 'batuk', 'pilek', 
             'flu', 'pusing', 'diare', 'tbc', 'tuberkulosis', 'hepatitis', 'polio', 'campak', 
@@ -103,8 +104,35 @@ Ketentuan Jawaban:
             'panas', 'pilek', 'bersin', 'luka bakar', 'nutrisi', 'diet sehat', 'patah hati',
             'kelelahan', 'saraf', 'sirosis', 'kuning', 'ulu hati', 'alkohol', 'rokok', 'nikotin',
             'miras', 'efek samping', 'efek', 'samping', 'bahaya', 'candu', 'kecanduan', 'narkoba',
-            'ketergantungan', 'zat adiktif'
+            'ketergantungan', 'zat adiktif',
+            
+            // Tambahan Kata Terkait Kesehatan & Penyakit (Untuk Mendukung Pertanyaan Lebih Luas)
+            'penyebab', 'mengapa', 'kenapa', 'bagaimana', 'cara', 'tips', 'mengatasi', 'mengobati',
+            'mencegah', 'jerawat', 'acne', 'wajah', 'muka', 'komedo', 'beruntusan', 'ruam',
+            'bintik', 'nanah', 'ngilu', 'linu', 'pegal', 'sendi', 'tulang', 'patah', 'retak',
+            'keseleo', 'terkilir', 'kram', 'kejang', 'kaku', 'lumpuh', 'lemas', 'capek',
+            'keliyengan', 'kembung', 'begah', 'sendawa', 'diare', 'bab', 'sembelit', 'wasir',
+            'ambeyen', 'cacingan', 'keracunan', 'biduran', 'kaligata', 'bentol', 'eksim',
+            'kurap', 'panu', 'kutu air', 'jamur', 'bisul', 'abses', 'lecet', 'memar',
+            'lebam', 'melepuh', 'meriang', 'sumeng', 'selesma', 'tenggorokan', 'radang',
+            'serak', 'amandel', 'gondongan', 'sinus', 'mengi', 'ngik', 'bronkitis',
+            'pneumonia', 'ispa', 'covid', 'corona', 'anemia', 'kurang darah', 'ginjal',
+            'batu ginjal', 'gagal ginjal', 'cuci darah', 'anyang-anyangan', 'kemih',
+            'kencing', 'urin', 'usus', 'apendisit', 'hernia', 'wasir', 'stroke',
+            'pikun', 'demensia', 'gemetar', 'epilepsi', 'ayan', 'begadang', 'tidur',
+            'sariawan', 'mulut', 'bau mulut', 'gusi', 'belekan', 'katarak', 'glaukoma',
+            'telinga', 'denging', 'budeg', 'mimisan', 'stunting', 'kurang gizi',
+            'asi', 'menyusui', 'sufor', 'mpasi', 'posyandu', 'bumil', 'hamil',
+            'kehamilan', 'janin', 'kandungan', 'usg', 'ketuban', 'melahirkan', 'persalinan',
+            'kb', 'pil kb', 'suntik kb', 'iud', 'spiral', 'kondom', 'kontrasepsi',
+            'haid', 'menstruasi', 'pms', 'keputihan', 'menopause', 'kista', 'miom',
+            'tiroid', 'gondok', 'hiv', 'aids', 'sifilis', 'gonore', 'herpes', 'ims',
+            'sabu', 'ganja', 'ekstasi', 'heroin', 'vape', 'tembakau', 'sakau',
+            'rehabilitasi', 'vitamin', 'suplemen', 'mineral', 'serat', 'lemak',
+            'protein', 'karbohidrat', 'obesitas', 'kegemukan', 'kebugaran', 'hidrasi',
+            'air putih', 'phbs', 'sanitasi', 'cuci tangan', 'sabun', 'kebersihan'
         ];
+
 
         // Check if message is related to health
         $isHealthRelated = false;
