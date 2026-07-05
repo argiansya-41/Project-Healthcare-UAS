@@ -20,7 +20,6 @@ use App\Http\Controllers\Imunisasi\ChildController;
 use App\Http\Controllers\Imunisasi\ScheduleController;
 use App\Http\Controllers\Imunisasi\ReminderController;
 use App\Http\Controllers\KepalaPuskesmas\ReportController;
-use App\Http\Controllers\Warga\WargaDiseaseReportController;
 use App\Http\Controllers\Warga\WargaMedicineController;
 use App\Http\Controllers\Warga\WargaComplaintController;
 use App\Http\Controllers\Kesehatan\AIChatController;
