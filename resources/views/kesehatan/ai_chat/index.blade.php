@@ -344,12 +344,12 @@
                         }
                     }
                 });
-                localStorage.setItem('healthcare_ai_chat_log_v2', JSON.stringify(logs));
+                localStorage.setItem('healthcare_ai_chat_log_user_{{ auth()->id() }}', JSON.stringify(logs));
             }
 
             // Load chat log from localStorage
             function loadChatFromLocal() {
-                const stored = localStorage.getItem('healthcare_ai_chat_log_v2');
+                const stored = localStorage.getItem('healthcare_ai_chat_log_user_{{ auth()->id() }}');
                 if (stored) {
                     const logs = JSON.parse(stored);
                     if (logs.length > 0) {
@@ -453,7 +453,7 @@
                     clearTimeout(clearConfirmTimeout);
                     resetClearButton();
                     
-                    localStorage.removeItem('healthcare_ai_chat_log_v2');
+                    localStorage.removeItem('healthcare_ai_chat_log_user_{{ auth()->id() }}');
                     
                     // Remove all message elements except the welcome bubble and the typing bubble
                     const children = Array.from(chatBody.children);
