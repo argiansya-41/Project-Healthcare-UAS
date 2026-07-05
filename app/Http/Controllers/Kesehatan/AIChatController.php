@@ -25,15 +25,16 @@ class AIChatController extends Controller
         $apiKey = config('services.gemini.key');
         if ($apiKey) {
             try {
-                $response = \Illuminate\Support\Facades\Http::withHeaders([
-                    'Content-Type' => 'application/json',
-                ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
-                    'contents' => [
-                        [
-                            'parts' => [
-                                [
-                                    'text' => "Anda adalah Asisten AI Kesehatan pintar untuk Puskesmas. Jawab pertanyaan pengguna berikut: \"{$message}\".
-                                    
+                $response = \Illuminate\Support\Facades\Http::withoutVerifying()
+                    ->withHeaders([
+                        'Content-Type' => 'application/json',
+                    ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+                        'contents' => [
+                            [
+                                'parts' => [
+                                    [
+                                        'text' => "Anda adalah Asisten AI Kesehatan pintar untuk Puskesmas. Jawab pertanyaan pengguna berikut: \"{$message}\".
+                                        
 Ketentuan Jawaban:
 1. Periksa apakah pertanyaan berhubungan dengan kesehatan, medis, penyakit, imunisasi, obat, gizi, gaya hidup sehat, pertolongan pertama, atau dampak buruk zat/kebiasaan seperti rokok/alkohol/narkoba.
 2. Jika TIDAK berhubungan dengan kesehatan, berikan tanggapan penolakan yang sopan dengan ikon peringatan kuning (<div class=\"ai-warning-alert\"><i class=\"ri-alert-line\"></i> Maaf, sebagai Asisten AI Kesehatan...</div>).
@@ -47,15 +48,15 @@ Ketentuan Jawaban:
   \"reply\": \"Isi jawaban lengkap dalam format HTML bersih (gunakan tag <h3>, <p>, <ul>, <li>, <strong>, dan kelas ikon Remix Icon seperti <i class='ri-capsule-line'></i> atau <i class='ri-alert-line'></i>)\"
 }
 4. Jawablah dalam Bahasa Indonesia yang ramah, profesional, dan mudah dipahami warga puskesmas."
+                                    ]
                                 ]
                             ]
+                        ],
+                        'generationConfig' => [
+                            'responseMimeType' => 'application/json',
+                            'temperature' => 0.2
                         ]
-                    ],
-                    'generationConfig' => [
-                        'responseMimeType' => 'application/json',
-                        'temperature' => 0.2
-                    ]
-                ]);
+                    ]);
 
                 if ($response->successful()) {
                     $json = $response->json();
@@ -79,9 +80,16 @@ Ketentuan Jawaban:
                     }
                 }
                 
-                \Illuminate\Support\Facades\Log::warning("Gemini API parsing failed or returned empty: " . $response->body());
+                // Return API error to the chat interface for easy debugging
+                return response()->json([
+                    'thinking' => ["Mendeteksi kegagalan respon dari API Gemini"],
+                    'reply' => '<div class="ai-warning-alert"><i class="ri-alert-line"></i> API Gemini mengembalikan error (' . $response->status() . '): ' . e($response->body()) . '</div>'
+                ]);
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error("Gemini API request error: " . $e->getMessage());
+                return response()->json([
+                    'thinking' => ["Terjadi kesalahan koneksi ke API Gemini"],
+                    'reply' => '<div class="ai-warning-alert"><i class="ri-alert-line"></i> Koneksi gagal: ' . e($e->getMessage()) . '</div>'
+                ]);
             }
         }
 
